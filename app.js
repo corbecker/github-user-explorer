@@ -11,17 +11,33 @@ searchUser.addEventListener('keyup', (e) => {
   if(username !== ''){
     gitHub.getUser(username)
       .then(data => {
-        console.log(data)
         if(data.message === 'Not Found'){
           // SHow Alert
+          ui.clearProfile();
+          ui.showAlert('User not found.', 'alert alert-danger');
         } else {
           // SHow the profile
           ui.showProfile(data);
+
+          gitHub.getRepos(username)
+            .then(data => {
+              if(data.message === 'Not Found'){
+                //Show an alert
+
+              } else{
+                ui.showRepos(data);
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            })
         }
       })
       .catch(err => {
         console.log(err);
       })
+    
+    
   } else {
     // Clear the profile
     ui.clearProfile();
