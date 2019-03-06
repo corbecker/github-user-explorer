@@ -1,19 +1,22 @@
+const gitHub = new GitHub;
+const ui = new UI;
+
 // Search User event handling
 const searchUser = document.getElementById('search-user');
 
 searchUser.addEventListener('keyup', (e) => {
   // Get the username entered
   const username = e.target.value;
-  const gitHub = new GitHub;
 
   if(username !== ''){
     gitHub.getUser(username)
       .then(data => {
-        if(data.profile.message === 'Not Found'){
+        console.log(data)
+        if(data.message === 'Not Found'){
           // SHow Alert
         } else {
           // SHow the profile
-          console.log(data)
+          ui.showProfile(data);
         }
       })
       .catch(err => {
@@ -21,5 +24,6 @@ searchUser.addEventListener('keyup', (e) => {
       })
   } else {
     // Clear the profile
+    ui.clearProfile();
   }
 });
